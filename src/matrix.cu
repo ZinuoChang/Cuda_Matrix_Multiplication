@@ -2,13 +2,13 @@
 #include "matrix.h"
   
 // CUDA kernel for matrix-vector multiplication
-__global__ void matrixVectorMultiplication(double* d_matrix, double* d_vector, double* d_result, int rows, int cols, int vec_num) {
+__global__ void matrixVectorMultiplication(double* d_matrix, double* d_vectors, double* d_result, int rows, int cols, int vec_num) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
     int col = blockIdx.x * blockDim.x + threadIdx.x;
     if (row < rows && col < vec_num) {
         double sum = 0.0;
         for (int i = 0; i < cols; ++i) {
-            sum += d_matrix[row * cols + i] * d_vector[i * vec_num + col];
+            sum += d_matrix[row * cols + i] * d_vectors[i * vec_num + col];
         }
         d_result[row * vec_num + col] = sum;
     }
@@ -21,11 +21,11 @@ void matrixVectorMul(double* matrix, double* vectorMatrix, double* result, int r
 
     cudaMalloc(&matrix_gpu, rows * cols * sizeof(double));
     cudaMalloc(&vectorMatrix_gpu, cols * vec_num * sizeof(double));
-    cudaMalloc(&result_gpu, cols * vec_num * sizeof(double));
+    cudaMalloc(&result_gpu, rows * vec_num * sizeof(double));
 
     // Copy the data from host to device
     cudaMemcpy(matrix_gpu, matrix, rows * cols * sizeof(double), cudaMemcpyHostToDevice);
-    cudaMemcpy(vectorMatrix_gpu, vectorMatrix, rows * vec_num * sizeof(double), cudaMemcpyHostToDevice);
+    cudaMemcpy(vectorMatrix_gpu, vectorMatrix, cols * vec_num * sizeof(double), cudaMemcpyHostToDevice);
 
 
     // Launch kernel
