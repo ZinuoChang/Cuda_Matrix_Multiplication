@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/MatrixVectorMul.dir/src/main.cpp.o CMakeFiles/MatrixVectorMul.dir/src/matrix.cu.o -o MatrixVectorMul   -L/usr/lib/x86_64-linux-gnu/stubs  -lcudadevrt -lcudart_static -lrt -lpthread -ldl 

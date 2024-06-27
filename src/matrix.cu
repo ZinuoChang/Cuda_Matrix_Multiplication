@@ -1,6 +1,6 @@
 #include <cuda_runtime.h>
 #include "matrix.h"
-
+  
 // CUDA kernel for matrix-vector multiplication
 __global__ void matrixVectorMultiplication(double* d_matrix, double* d_vector, double* d_result, int rows, int cols, int vec_num) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
@@ -12,7 +12,7 @@ __global__ void matrixVectorMultiplication(double* d_matrix, double* d_vector, d
         }
         d_result[row * vec_num + col] = sum;
     }
-}
+} 
 
 
 void matrixVectorMul(double* matrix, double* vectorMatrix, double* result, int rows, int cols, int vec_num)
@@ -32,16 +32,10 @@ void matrixVectorMul(double* matrix, double* vectorMatrix, double* result, int r
     dim3 blockSize(4, 4);
     dim3 threadperblock((vec_num + blockSize.x - 1) / blockSize.x, (rows + blockSize.y - 1) / blockSize.y);
     
-    
-    auto start = std::chrono::high_resolution_clock::now();
-    
+        
     matrixVectorMultiplication<<<threadperblock, blockSize>>>(matrix_gpu, vectorMatrix_gpu, result_gpu, rows, cols, vec_num);
     cudaDeviceSynchronize();
     cudaMemcpy(result, result_gpu, rows * vec_num * sizeof(double), cudaMemcpyDeviceToHost);
-
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = end - start;
-    std::cout << "Elapsed time GPU: " << elapsed.count() << " seconds" << std::endl;
 
     // Free device memory
     cudaFree(matrix);
@@ -58,14 +52,5 @@ void matrixVectorMul(double* matrix, double* vectorMatrix, double* result, int r
     //         // std::cout << randomValue << std::endl;
     //         matrix[i * cols + j] = randomValue;
     //         // std::cout << matrix[i * cols + j] << std::endl;
-    //     }
-    // }
-
-    // for (int i = 0; i < rows; i++) {
-    //     for (int j = 0; j < vec_num; j++) {
-    //         double randomValue = static_cast<double>(rand()) / RAND_MAX;  // Generates a random float between 0 and 1
-    //         // std::cout << randomValue << std::endl;
-    //         vectorMatrix[i * cols + j] = randomValue;
-    //         // std::cout << vectorMatrix[i * cols + j] << std::endl;
     //     }
     // }

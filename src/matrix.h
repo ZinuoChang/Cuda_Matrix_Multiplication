@@ -2,7 +2,6 @@
 #define MATRIX_H
 
 #include <iostream>
-// #include "/usr/local/include/eigen3/Eigen/Dense"
 #include <vector>
 #include <chrono>
 

@@ -1,0 +1,3 @@
+/home/zinuo/Desktop/CudaMatrixMultiplication/build/CMakeFiles/MatrixVectorMul.dir
+/home/zinuo/Desktop/CudaMatrixMultiplication/build/CMakeFiles/edit_cache.dir
+/home/zinuo/Desktop/CudaMatrixMultiplication/build/CMakeFiles/rebuild_cache.dir
