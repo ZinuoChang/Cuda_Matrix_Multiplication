@@ -29,8 +29,8 @@ int main (void){
     double* result_array = new double[result.size()];
 
     // Assign the value in eigen matrix into array
-    Eigen::Map<Eigen::MatrixXd>(matrix_array, matrix.transpose().rows(), matrix.transpose().cols()) = matrix.transpose();
-    Eigen::Map<Eigen::MatrixXd>(vectorMatrix_array, vectorMatrix.transpose().rows(), vectorMatrix.transpose().cols()) = vectorMatrix.transpose();
+    Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>(matrix_array, matrix.rows(), matrix.cols()) = matrix;
+    Eigen::Map<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>>(vectorMatrix_array, vectorMatrix.rows(), vectorMatrix.cols()) = vectorMatrix;
     
     // std::cout << "Matrix:" << std::endl << matrix << std::endl;
     // std::cout << std::endl;
